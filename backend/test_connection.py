@@ -6,3 +6,4 @@ with engine.connect() as connection:
     )
 
     print(result.scalar())  
+

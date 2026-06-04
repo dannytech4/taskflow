@@ -1,20 +1,25 @@
+from urllib.parse import quote_plus
+
 from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm import declarative_base
+from sqlalchemy.orm import sessionmaker
 
 SERVER = "localhost"
 DATABASE = "TaskFlow"
 USERNAME = "sa"
 PASSWORD = "Admin1234@"
 
-connection_string = (
-    f"mssql+pyodbc://{USERNAME}:{PASSWORD}@{SERVER}/{DATABASE}"
-    "?driver=ODBC+Driver+18+for+SQL+Server"
-    "&TrustServerCertificate=yes"
+params = quote_plus(
+    f"DRIVER={{ODBC Driver 18 for SQL Server}};"
+    f"SERVER={SERVER};"
+    f"DATABASE={DATABASE};"
+    f"UID={USERNAME};"
+    f"PWD={PASSWORD};"
+    "TrustServerCertificate=yes;"
 )
 
 engine = create_engine(
-    connection_string,
+    f"mssql+pyodbc:///?odbc_connect={params}",
     echo=True
 )
 
